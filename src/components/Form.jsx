@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { addArticle } from '../redux/modules/articles'
+import PropTypes from 'prop-types'
 
 function mapDispatchToProps (dispatch) {
   return {
@@ -37,3 +38,7 @@ const Form = connect(
   mapDispatchToProps)(ConnectedForm)
 
 export default Form
+
+ConnectedForm.propTypes = {
+  addArticle: PropTypes.func
+}
