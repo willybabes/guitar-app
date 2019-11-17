@@ -1,23 +1,31 @@
-import React from 'react'
+import React, { Component } from 'react'
+import Task from './Task'
 import List from './List'
-import Form from './Form'
-import Post from './Posts'
+import { getData } from '../redux/modules/tasks'
+import { connect } from 'react-redux'
 
-const App = () => (
-  <>
-    <div>
-      <h2>Articles</h2>
-      <List />
-    </div>
-    <div>
-      <h2>Add a new article</h2>
-      <Form />
-    </div>
-    <div>
-      <h2>API posts</h2>
-      <Post />
-    </div>
-  </>
-)
+class App extends Component {
+  componentDidMount () {
+    this.props.getData()
+  }
 
-export default App
+  render () {
+    return (
+      <>
+        <div>
+          <h2>Task</h2>
+          <Task />
+        </div>
+        <div>
+          <h2>List</h2>
+          <List />
+        </div>
+      </>
+    )
+  }
+}
+
+export default connect(
+  null,
+  { getData }
+)(App)

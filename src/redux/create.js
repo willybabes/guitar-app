@@ -1,17 +1,12 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import rootReducer from './modules/reducer'
-// import { forbiddenWordsMiddleware } from './middleware'
-import createSagaMiddleware from 'redux-saga'
-import { watcherSaga } from './modules/articles'
+import { forbiddenWordsMiddleware } from './middleware'
+import thunk from 'redux-thunk'
 
-const initialiseSagaMiddleware = createSagaMiddleware()
 const storeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(
   rootReducer,
-  storeEnhancers(
-    applyMiddleware(initialiseSagaMiddleware)
-  )
+  storeEnhancers(applyMiddleware(forbiddenWordsMiddleware, thunk))
 )
-initialiseSagaMiddleware.run(watcherSaga)
 
 export default store

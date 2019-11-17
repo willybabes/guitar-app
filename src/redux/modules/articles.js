@@ -1,5 +1,3 @@
-import { takeEvery, call, put } from 'redux-saga/effects'
-
 // Action constants
 export const ADD_ARTICLE = 'ADD_ARTICLE'
 export const DATA_LOADED = 'DATA_LOADED'
@@ -8,26 +6,15 @@ export const API_ERRORED = 'API_ERRORED'
 
 // Action creators
 export const addArticle = (payload) => ({ type: ADD_ARTICLE, payload })
-export const getData = () => ({ type: DATA_REQUESTED })
 
-// Sagas
-export function * watcherSaga () {
-  yield takeEvery(DATA_REQUESTED, workerSaga)
-}
-
-function * workerSaga () {
-  try {
-    const payload = yield call(getSagaData)
-    yield put({ type: DATA_LOADED, payload })
-  } catch (e) {
-    yield put({ type: API_ERRORED, payload: e })
+export function getData () {
+  return function (dispatch) {
+    return fetch('https://jsonplaceholder.typicode.com/posts')
+      .then(response => response.json())
+      .then(json => {
+        dispatch({ type: DATA_LOADED, payload: json })
+      })
   }
-}
-
-function getSagaData () {
-  return fetch('https://jsonplaceholder.typicode.com/posts').then(response =>
-    response.json()
-  )
 }
 
 // reducers
