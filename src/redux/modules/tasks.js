@@ -20,9 +20,10 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case DATA_LOADED: {
+      const list = state.list.concat(action.payload)
       return Object.assign({}, state, {
-        list: state.list.concat(action.payload),
-        activeTask: Math.floor(Math.random() * Math.floor(action.payload.length))
+        list,
+        activeTask: list[Math.floor(Math.random() * Math.floor(list.length))]
       })
     }
     default:

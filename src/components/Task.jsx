@@ -3,17 +3,18 @@ import { connect } from 'react-redux'
 
 function mapStateToProps (state) {
   return {
-    task: state.tasks.list[state.tasks.activeTask]
+    task: state.tasks.activeTask
   }
 }
 
 const Task = ({ task }) => (
   <>
-    {task &&
-      <>
-        <h4>{task.title}</h4>
-        <p>{task.description}</p>
-      </>
+    {
+      task &&
+        <>
+          <h4>{task.title}</h4>
+          <p>{task.description}</p>
+        </>
     }
   </>
 )
