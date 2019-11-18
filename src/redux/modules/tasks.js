@@ -3,6 +3,7 @@ import data from '../../data'
 // Action constants
 export const DATA_LOADED = 'DATA_LOADED'
 export const API_ERRORED = 'API_ERRORED'
+export const NEW_ACTIVE_TASK = 'NEW_ACTIVE_TASK'
 
 // Action creators
 export function getData () {
@@ -10,6 +11,9 @@ export function getData () {
     dispatch({ type: DATA_LOADED, payload: data })
   }
 }
+
+// Action creators
+export const newActiveTask = (payload) => ({ type: NEW_ACTIVE_TASK, payload })
 
 // reducers
 const initialState = {
@@ -24,6 +28,12 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         list,
         activeTask: list[Math.floor(Math.random() * Math.floor(list.length))]
+      })
+    }
+    case NEW_ACTIVE_TASK: {
+      const activeTask = state.list[Math.floor(Math.random() * Math.floor(state.list.length))]
+      return Object.assign({}, state, {
+        activeTask
       })
     }
     default:

@@ -1,5 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+`
 
 function mapStateToProps (state) {
   return {
@@ -8,7 +17,7 @@ function mapStateToProps (state) {
 }
 
 const Task = ({ task }) => (
-  <>
+  <Container>
     {
       task &&
         <>
@@ -16,7 +25,7 @@ const Task = ({ task }) => (
           <p>{task.description}</p>
         </>
     }
-  </>
+  </Container>
 )
 
 export default connect(mapStateToProps)(Task)
