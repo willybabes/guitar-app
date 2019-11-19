@@ -4,6 +4,7 @@ import data from '../../data'
 export const DATA_LOADED = 'DATA_LOADED'
 export const API_ERRORED = 'API_ERRORED'
 export const NEW_ACTIVE_TASK = 'NEW_ACTIVE_TASK'
+export const ADD_TASK = 'ADD_TASK'
 
 // Action creators
 export function getData () {
@@ -14,16 +15,17 @@ export function getData () {
 
 // Action creators
 export const newActiveTask = payload => ({ type: NEW_ACTIVE_TASK, payload })
+export const addTask = payload => ({ type: ADD_TASK, payload })
 
 // reducers
 const initialState = {
-  list: [],
+  list: {},
   activeTask: null
 }
 
-const randomArrayEntry = (max) => {
-  return Math.floor(Math.random() * Math.floor(max))
-}
+const randomArrayEntry = max => Math.floor(Math.random() * Math.floor(max))
+
+const createHash = () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -45,6 +47,16 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         list,
         activeTaskId: incomplete[randomArrayEntry(incomplete.length)]
+      })
+    }
+    case ADD_TASK: {
+      const newTask = {
+        id: createHash(),
+        ...action.payload,
+        completed: false
+      }
+      return Object.assign({}, state, {
+        list: { ...state.list, [newTask.id]: newTask }
       })
     }
     default:

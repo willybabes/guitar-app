@@ -1,44 +1,65 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { addArticle } from '../redux/modules/articles'
+import { addTask } from '../redux/modules/tasks'
 import PropTypes from 'prop-types'
+import { Button, Form } from 'react-bootstrap'
 
 function mapDispatchToProps (dispatch) {
   return {
-    addArticle: article => dispatch(addArticle(article))
+    addTask: task => dispatch(addTask(task))
   }
 }
 
-const ConnectedForm = ({ addArticle }) => {
-  const [title, setTitle] = useState('')
-  const handleChange = e => setTitle(e.currentTarget.value)
+const ConnectedForm = ({ addTask }) => {
+  const [inputs, setInputs] = useState({
+    title: '',
+    description: ''
+  })
   const handleSubmit = e => {
-    e.preventDefault()
-    addArticle(title)
-    setTitle('')
+    if (e) {
+      e.preventDefault()
+    }
+    if (inputs.title && inputs.description) {
+      addTask({
+        title: inputs.title, description: inputs.description
+      })
+    }
+  }
+  const handleInputChange = e => {
+    e.persist()
+    setInputs(inputs => ({ ...inputs, [e.target.name]: e.target.value }))
   }
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor='title'>Title</label>
-        <input
+    <Form onSubmit={handleSubmit}>
+      <Form.Group>
+        <Form.Label htmlFor='title'>Title</Form.Label>
+        <Form.Control
           type='text'
           id='title'
-          value={title}
-          onChange={handleChange}
+          name='title'
+          value={inputs.title}
+          onChange={handleInputChange}
         />
-      </div>
-      <button type='submit'>Save</button>
-    </form>
+        <Form.Label htmlFor='description'>Description</Form.Label>
+        <Form.Control
+          type='description'
+          id='description'
+          name='description'
+          value={inputs.description}
+          onChange={handleInputChange}
+        />
+        <Button type='submit'>Save</Button>
+      </Form.Group>
+    </Form>
   )
 }
 
-const Form = connect(
+const StyledForm = connect(
   null,
   mapDispatchToProps)(ConnectedForm)
 
-export default Form
+export default StyledForm
 
 ConnectedForm.propTypes = {
-  addArticle: PropTypes.func
+  addTask: PropTypes.func
 }
