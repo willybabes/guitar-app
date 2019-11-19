@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import NextButton from './NextButton'
 
 const Container = styled.div`
   display: flex;
@@ -25,6 +26,7 @@ const Task = ({ list, activeTaskId }) => (
           ? <>
             <h4>{list[activeTaskId].title}</h4>
             <p>{list[activeTaskId].description}</p>
+            <NextButton />
           </>
           : <h4>No tasks!</h4>
       }

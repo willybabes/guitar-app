@@ -21,15 +21,18 @@ const initialState = {
   activeTask: null
 }
 
+const randomArrayEntry = (max) => {
+  return Math.floor(Math.random() * Math.floor(max))
+}
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case DATA_LOADED: {
       const list = action.payload
       const listAsArray = Object.keys(list)
-      const randomArrayEntry = Math.floor(Math.random() * Math.floor(listAsArray.length))
       return Object.assign({}, state, {
         list,
-        activeTaskId: list[listAsArray[randomArrayEntry]].id
+        activeTaskId: list[listAsArray[randomArrayEntry(listAsArray.length)]].id
       })
     }
     case NEW_ACTIVE_TASK: {
@@ -38,15 +41,10 @@ const reducer = (state = initialState, action) => {
           completed: true
         })
       })
-
-      const incomplete = Object.keys(list).filter(key => {
-        return list[key].completed === false
-      })
-      const randomArrayEntry = Math.floor(Math.random() * Math.floor(incomplete.length))
-
+      const incomplete = Object.keys(list).filter(key => list[key].completed === false)
       return Object.assign({}, state, {
         list,
-        activeTaskId: incomplete[randomArrayEntry]
+        activeTaskId: incomplete[randomArrayEntry(incomplete.length)]
       })
     }
     default:

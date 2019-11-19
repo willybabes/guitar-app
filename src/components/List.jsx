@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 const StyledList = styled.ul`
-  background: red;
+  // background: red;
 `
 
 const StyledListItem = styled.li`
@@ -19,7 +19,12 @@ const mapStateToProps = state => {
 const ConnectedList = ({ list }) => (
   <StyledList>
     {Object.keys(list).map((item) => (
-      <StyledListItem key={`tasklist_${item}`} completed={list[item].completed}>{list[item].title}</StyledListItem>
+      <StyledListItem
+        key={`tasklist_${item}`}
+        completed={list[item].completed}
+      >
+        {list[item].title}
+      </StyledListItem>
     ))}
   </StyledList>
 )

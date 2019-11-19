@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { newActiveTask } from '../redux/modules/tasks'
+import { Button } from 'react-bootstrap'
 
 function mapDispatchToProps (dispatch) {
   return {
@@ -16,16 +17,16 @@ const mapStateToProps = state => {
 
 const ConnectedNextButton = ({ newActiveTask, activeTaskId }) => (
   <>
-    <button
+    <Button
       onClick={() => newActiveTask(activeTaskId)}
     >
-      Next ({activeTaskId})
-    </button>
+      Next
+    </Button>
   </>
 )
 
-const Button = connect(
+const StyledButton = connect(
   mapStateToProps,
   mapDispatchToProps)(ConnectedNextButton)
 
-export default Button
+export default StyledButton
