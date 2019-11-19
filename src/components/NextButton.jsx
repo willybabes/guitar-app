@@ -4,22 +4,28 @@ import { newActiveTask } from '../redux/modules/tasks'
 
 function mapDispatchToProps (dispatch) {
   return {
-    newActiveTask: () => dispatch(newActiveTask())
+    newActiveTask: activeTaskId => dispatch(newActiveTask(activeTaskId))
   }
 }
 
-const ConnectedNextButton = ({ newActiveTask }) => (
+const mapStateToProps = state => {
+  return {
+    activeTaskId: state.tasks.activeTaskId
+  }
+}
+
+const ConnectedNextButton = ({ newActiveTask, activeTaskId }) => (
   <>
     <button
-      onClick={newActiveTask}
+      onClick={() => newActiveTask(activeTaskId)}
     >
-      Next
+      Next ({activeTaskId})
     </button>
   </>
 )
 
 const Button = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps)(ConnectedNextButton)
 
 export default Button

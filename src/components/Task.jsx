@@ -12,19 +12,23 @@ const Container = styled.div`
 
 function mapStateToProps (state) {
   return {
-    task: state.tasks.activeTask
+    list: state.tasks.list,
+    activeTaskId: state.tasks.activeTaskId
   }
 }
 
-const Task = ({ task }) => (
+const Task = ({ list, activeTaskId }) => (
   <Container>
-    {
-      task &&
-        <>
-          <h4>{task.title}</h4>
-          <p>{task.description}</p>
-        </>
-    }
+    <>
+      {
+        list && activeTaskId
+          ? <>
+            <h4>{list[activeTaskId].title}</h4>
+            <p>{list[activeTaskId].description}</p>
+          </>
+          : <h4>No tasks!</h4>
+      }
+    </>
   </Container>
 )
 

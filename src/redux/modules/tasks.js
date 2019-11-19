@@ -13,7 +13,7 @@ export function getData () {
 }
 
 // Action creators
-export const newActiveTask = (payload) => ({ type: NEW_ACTIVE_TASK, payload })
+export const newActiveTask = payload => ({ type: NEW_ACTIVE_TASK, payload })
 
 // reducers
 const initialState = {
@@ -24,16 +24,29 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case DATA_LOADED: {
-      const list = state.list.concat(action.payload)
+      const list = action.payload
+      const listAsArray = Object.keys(list)
+      const randomArrayEntry = Math.floor(Math.random() * Math.floor(listAsArray.length))
       return Object.assign({}, state, {
         list,
-        activeTask: list[Math.floor(Math.random() * Math.floor(list.length))]
+        activeTaskId: list[listAsArray[randomArrayEntry]].id
       })
     }
     case NEW_ACTIVE_TASK: {
-      const activeTask = state.list[Math.floor(Math.random() * Math.floor(state.list.length))]
+      const list = Object.assign({}, state.list, {
+        [action.payload]: Object.assign({}, state.list[action.payload], {
+          completed: true
+        })
+      })
+
+      const incomplete = Object.keys(list).filter(key => {
+        return list[key].completed === false
+      })
+      const randomArrayEntry = Math.floor(Math.random() * Math.floor(incomplete.length))
+
       return Object.assign({}, state, {
-        activeTask
+        list,
+        activeTaskId: incomplete[randomArrayEntry]
       })
     }
     default:
